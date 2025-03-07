@@ -1,0 +1,47 @@
+from manim import *
+
+class PopcornScene(Scene):
+    def construct(self):
+        # Set background color to black
+        self.camera.background_color = BLACK
+
+        # Create the popcorn kernel (a small circle)
+        kernel = Circle(radius=0.25, color=WHITE).shift(UP * 2)
+        
+        # Create the spotlight (camera light)
+        light = Circle(radius=0.5, color=YELLOW, fill_opacity=0.5).shift(UP * 2.5)
+        
+        # Create the text "Culture"
+        culture_text = Text("Culture", font="Arial", color=RED).scale(1.5).shift(DOWN * 3)
+
+        # Start the scene by showing the kernel
+        self.play(FadeIn(kernel))
+        
+        # Add the camera light
+        self.play(FadeIn(light))
+
+        # Animate the camera light falling on the kernel
+        self.play(light.animate.shift(DOWN * 0.5))
+
+        # Animate the kernel bouncing and turning into popcorn
+        self.play(
+            kernel.animate.shift(DOWN * 1.5).scale(2),  # Bounce down and grow to a popcorn size
+            light.animate.shift(DOWN * 1.5),  # Keep the light with the kernel
+            run_time=1
+        )
+
+        # Add the sound effect of the popcorn popping
+        self.play(Sound("pop"))
+
+        # Create the popcorn shape
+        popcorn = Ellipse(width=0.5, height=0.3, color=WHITE).shift(UP * 1.5)
+        self.play(Transform(kernel, popcorn))
+
+        # Add the text "Culture" below the popcorn after it pops
+        self.play(FadeIn(culture_text))
+
+        # Optionally, you could add a little bounce to the text
+        self.play(culture_text.animate.shift(UP * 0.3).shift(DOWN * 0.3))
+
+        # Wait for the final frame
+        self.wait(1)
